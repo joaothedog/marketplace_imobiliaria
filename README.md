@@ -37,12 +37,48 @@ API para gerenciamento de imóveis, imobiliárias, pacotes de anúncios e contra
 - **PUT /contratos/{id}/** - Atualizar um contrato.
 - **DELETE /contratos/{id}/** - Excluir um contrato.
 
+### Autenticação JWT
+
+Agora, você pode testar a autenticação JWT usando ferramentas como Postman ou Insomnia.
+
+#### Obter Token de Acesso
+- **Endpoint:** `POST /api/token/`
+- **Body:**
+```json
+{
+  "username": "seu_usuario",
+  "password": "sua_senha"
+}
+```
+- **Resposta:**
+```json
+{
+  "refresh": "refresh_token_aqui",
+  "access": "access_token_aqui"
+}
+```
+
+#### Atualizar Token de Acesso
+- **Endpoint:** `POST /api/token/refresh/`
+- **Body:**
+```json
+{
+  "refresh": "refresh_token_aqui"
+}
+```
+- **Resposta:**
+```json
+{
+  "access": "novo_access_token_aqui"
+}
+```
+
 ## Exemplo de Requisição e Resposta
 ### Criar um imóvel
 
 **Endpoint:** `POST /imoveis/`
 
-**Body:**
+**Corpo da requisição:**
 ```json
 {
   "titulo": "Casa com 3 quartos",
@@ -72,3 +108,37 @@ API para gerenciamento de imóveis, imobiliárias, pacotes de anúncios e contra
 }
 ```
 
+## Passo a Passo para Utilizar a API
+
+### 1. Clonar o Repositório
+```sh
+git clone https://github.com/joaothedog/marketplace_imobiliaria.git
+```
+
+### 2. Criar e Ativar um Ambiente Virtual
+```sh
+python -m venv venv
+source venv/bin/activate  # Se você estiver no Windows, utilize: venv\Scripts\activate
+```
+
+### 3. Instalar Dependências
+```sh
+pip install -r requirements.txt
+```
+
+### 4. Configurar o Banco de Dados
+```sh
+python manage.py migrate
+```
+
+### 5. Criar um admin user
+```sh
+python manage.py createsuperuser # Para lidar com a autenticação é necessário criar o usuario
+```
+
+### 6. Rodar o Servidor
+```sh
+python manage.py runserver
+```
+
+A API estará disponível em `http://127.0.0.1:8000/api/`.
