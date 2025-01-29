@@ -39,7 +39,13 @@ API para gerenciamento de imóveis, imobiliárias, pacotes de anúncios e contra
 
 ### Autenticação JWT
 
-Agora, você pode testar a autenticação JWT usando ferramentas como Postman ou Insomnia.
+Agora, crie um superuser do Django com:
+
+```sh
+python manage.py createsuperuser # Para lidar com a autenticação é necessário criar o usuario
+```
+
+e utilize o Postman ou Insomnia (utilizei o Postman, por costume, mas fica à seu critério) para realizar as requisições:
 
 #### Obter Token de Acesso
 - **Endpoint:** `POST /api/token/`
@@ -131,12 +137,7 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-### 5. Criar um admin user
-```sh
-python manage.py createsuperuser # Para lidar com a autenticação é necessário criar o usuario
-```
-
-### 6. Rodar o Servidor
+### 5. Rodar o Servidor
 ```sh
 python manage.py runserver
 ```
