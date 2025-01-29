@@ -67,6 +67,25 @@ A API estará disponível em `http://127.0.0.1:8000/api/`.
 - **PUT /contratos/{id}/** - Atualizar um contrato.
 - **DELETE /contratos/{id}/** - Excluir um contrato.
 
+### Registrar novo usuário
+- **POST /register/**
+- **Body:**
+```json
+{
+  "username": "novousuario",
+  "email": "novousuario@example.com",
+  "password": "senhasegura123",
+  "password2": "senhasegura123"
+}
+```
+- **Resposta:**
+```json
+{
+  "username": "novousuario",
+  "email": "novousuario@example.com"
+}
+```
+
 ### Autenticação JWT
 
 Agora, crie um superuser do Django com:
