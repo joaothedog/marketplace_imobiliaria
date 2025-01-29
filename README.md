@@ -3,6 +3,36 @@
 ## Descrição
 API para gerenciamento de imóveis, imobiliárias, pacotes de anúncios e contratos.
 
+## Passo a Passo para Utilizar a API
+
+### 1. Clonar o Repositório
+```sh
+git clone https://github.com/joaothedog/marketplace_imobiliaria.git
+```
+
+### 2. Criar e Ativar um Ambiente Virtual
+```sh
+python -m venv venv
+source venv/bin/activate  # Se você estiver no Windows, utilize: venv\Scripts\activate
+```
+
+### 3. Instalar Dependências
+```sh
+pip install -r requirements.txt
+```
+
+### 4. Configurar o Banco de Dados
+```sh
+python manage.py migrate
+```
+
+### 5. Rodar o Servidor
+```sh
+python manage.py runserver
+```
+
+A API estará disponível em `http://127.0.0.1:8000/api/`.
+
 ## Endpoints
 
 ### Imobiliárias
@@ -113,33 +143,3 @@ e utilize o Postman ou Insomnia (utilizei o Postman, por costume, mas fica à se
   "data_criacao": "2023-10-01T12:00:00Z"
 }
 ```
-
-## Passo a Passo para Utilizar a API
-
-### 1. Clonar o Repositório
-```sh
-git clone https://github.com/joaothedog/marketplace_imobiliaria.git
-```
-
-### 2. Criar e Ativar um Ambiente Virtual
-```sh
-python -m venv venv
-source venv/bin/activate  # Se você estiver no Windows, utilize: venv\Scripts\activate
-```
-
-### 3. Instalar Dependências
-```sh
-pip install -r requirements.txt
-```
-
-### 4. Configurar o Banco de Dados
-```sh
-python manage.py migrate
-```
-
-### 5. Rodar o Servidor
-```sh
-python manage.py runserver
-```
-
-A API estará disponível em `http://127.0.0.1:8000/api/`.
