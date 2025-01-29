@@ -1,15 +1,23 @@
-from rest_framework import viewsets, permissions
-from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato
-from .serializers import ImobiliariaSerializer, ImovelSerializer, ImagemSerializer, PacoteAnuncioSerializer, ContratoSerializer
+from rest_framework import viewsets, permissions, generics
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from django.contrib.auth.models import User
+
+from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato
+from .serializers import ImobiliariaSerializer, ImovelSerializer, ImagemSerializer, PacoteAnuncioSerializer, ContratoSerializer, UserRegisterSerializer
 
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
         return request.user and request.user.is_authenticated
+
+class UserRegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    permission_classes = [permissions.AllowAny]  # Permite que qualquer pessoa se registre
     
 class ImobiliariaViewSet(viewsets.ModelViewSet):
     queryset = Imobiliaria.objects.all()
