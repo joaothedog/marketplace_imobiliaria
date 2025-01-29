@@ -1,7 +1,21 @@
 # API Marketplace de Imóveis
 
-## Descrição
-API para gerenciamento de imóveis, imobiliárias, pacotes de anúncios e contratos.
+Esta é uma API Django Rest Framework (DRF) para um marketplace de imóveis, onde imobiliárias podem anunciar imóveis para venda ou locação. A API permite a listagem de imóveis, criação de novos anúncios (com autenticação JWT), registro de usuários e muito mais.
+
+## Tecnologias Utilizadas
+- Python: Linguagem de programação principal.
+- Django: Framework web para desenvolvimento rápido e seguro.
+- Django Rest Framework (DRF): Framework para construção de APIs RESTful.
+- Simple JWT: Biblioteca para autenticação via JSON Web Tokens (JWT).
+- SQLite: Banco de dados padrão para desenvolvimento.
+- Postman/Insomnia: Ferramentas para testar os endpoints da API.
+
+## Funcionalidades da API
+- Listagem de Imóveis: Qualquer usuário pode visualizar a lista de imóveis disponíveis.
+- Criação de Imóveis: Apenas usuários autenticados podem criar novos anúncios de imóveis.
+- Autenticação JWT: Sistema de autenticação seguro usando JSON Web Tokens.
+- Registro de Usuários: Endpoint para registro de novos usuários.
+- Filtros de Busca: Filtragem de imóveis por bairro, preço e tipo (venda/locação). (EM CONSTRUÇÃO)
 
 ## Passo a Passo para Utilizar a API
 
@@ -31,20 +45,25 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+### 6. Rodar os testes automatizados
+```sh
+python manage.py test
+```
+
 A API estará disponível em `http://127.0.0.1:8000/api/`.
 
 ## Endpoints
 
 ### Imobiliárias
 - **GET /imobiliarias/** - Listar todas as imobiliárias.
-- **POST /imobiliarias/** - Criar uma nova imobiliária.
+- **POST /imobiliarias/** - Criar uma nova imobiliária. (AUTH)
 - **GET /imobiliarias/{id}/** - Detalhes de uma imobiliária.
 - **PUT /imobiliarias/{id}/** - Atualizar uma imobiliária.
 - **DELETE /imobiliarias/{id}/** - Excluir uma imobiliária.
 
 ### Imóveis
 - **GET /imoveis/** - Listar todos os imóveis (com filtros: bairro, preço, tipo).
-- **POST /imoveis/** - Criar um novo imóvel.
+- **POST /imoveis/** - Criar um novo imóvel. (AUTH)
 - **GET /imoveis/{id}/** - Detalhes de um imóvel.
 - **PUT /imoveis/{id}/** - Atualizar um imóvel.
 - **DELETE /imoveis/{id}/** - Excluir um imóvel.
@@ -55,14 +74,14 @@ A API estará disponível em `http://127.0.0.1:8000/api/`.
 
 ### Pacotes de Anúncios
 - **GET /pacotes/** - Listar todos os pacotes.
-- **POST /pacotes/** - Criar um novo pacote.
+- **POST /pacotes/** - Criar um novo pacote. (AUTH)
 - **GET /pacotes/{id}/** - Detalhes de um pacote.
 - **PUT /pacotes/{id}/** - Atualizar um pacote.
 - **DELETE /pacotes/{id}/** - Excluir um pacote.
 
 ### Contratos
 - **GET /contratos/** - Listar todos os contratos.
-- **POST /contratos/** - Criar um novo contrato.
+- **POST /contratos/** - Criar um novo contrato. (AUTH)
 - **GET /contratos/{id}/** - Detalhes de um contrato.
 - **PUT /contratos/{id}/** - Atualizar um contrato.
 - **DELETE /contratos/{id}/** - Excluir um contrato.
@@ -162,3 +181,8 @@ e utilize o Postman ou Insomnia (utilizei o Postman, por costume, mas fica à se
   "data_criacao": "2023-10-01T12:00:00Z"
 }
 ```
+
+## Contato
+- **Nome**: João
+- **E-mail**: jvcbatist4@outlook.com
+- **Nome**: [LinkedIn](https://www.linkedin.com/in/soujoaovitor/)
