@@ -185,4 +185,4 @@ e utilize o Postman ou Insomnia (utilizei o Postman, por costume, mas fica à se
 ## Contato
 - **Nome**: João
 - **E-mail**: jvcbatist4@outlook.com
-- **Nome**: [LinkedIn](https://www.linkedin.com/in/soujoaovitor/)
+- **LinkedIn**: [LinkedIn](https://www.linkedin.com/in/soujoaovitor/)
