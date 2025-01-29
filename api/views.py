@@ -11,11 +11,10 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
             return True
         return request.user and request.user.is_authenticated
     
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 class ImobiliariaViewSet(viewsets.ModelViewSet):
     queryset = Imobiliaria.objects.all()
     serializer_class = ImobiliariaSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class ImovelViewSet(viewsets.ModelViewSet):
     queryset = Imovel.objects.all()
@@ -25,6 +24,7 @@ class ImovelViewSet(viewsets.ModelViewSet):
 class ImagemViewSet(viewsets.ModelViewSet):
     queryset = Imagem.objects.all()
     serializer_class = ImagemSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
