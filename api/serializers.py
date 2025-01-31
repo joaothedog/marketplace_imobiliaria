@@ -43,6 +43,16 @@ class ImovelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Imovel
         fields = '__all__'
+        
+    def validate_preco_venda(self, value):
+        if value and value < 0:
+            raise serializers.ValidationError("O preço de venda não pode ser negativo.")
+        return value
+
+    def validate_preco_locacao(self, value):
+        if value and value < 0:
+            raise serializers.ValidationError("O preço de locação não pode ser negativo.")
+        return value
 
 class ImagemSerializer(serializers.ModelSerializer):
     class Meta:
