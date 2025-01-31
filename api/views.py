@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .filters import ImovelFilter
 from django_filters import rest_framework as filters
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from django.contrib.auth.models import User
 
@@ -32,6 +34,10 @@ class ImovelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ImovelFilter
+    
+    @method_decorator(cache_page(60 * 15))  # 15min cache
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 class ImagemViewSet(viewsets.ModelViewSet):
     queryset = Imagem.objects.all()
