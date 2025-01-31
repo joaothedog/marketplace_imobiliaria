@@ -86,22 +86,83 @@ A API estará disponível em `http://127.0.0.1:8000/api/`.
 - **PUT /contratos/{id}/** - Atualizar um contrato.
 - **DELETE /contratos/{id}/** - Excluir um contrato.
 
-### Registrar novo usuário
-- **POST /register/**
+### Registrar usuário ou imobiliária
+- **POST /api/register/imobiliaria/**
 - **Body:**
 ```json
 {
-  "username": "novousuario",
-  "email": "novousuario@example.com",
-  "password": "senhasegura123",
-  "password2": "senhasegura123"
+  "user": {
+    "username": "imobiliaria1",
+    "password": "senha123",
+    "tipo_usuario": "IMOBILIARIA"
+  },
+  "nome": "Imobiliária Teste",
+  "email": "imobiliaria@teste.com",
+  "telefone": "123456789",
+  "whatsapp": "987654321",
+  "endereco": "Rua Teste, 123"
 }
 ```
 - **Resposta:**
 ```json
 {
-  "username": "novousuario",
-  "email": "novousuario@example.com"
+  "id": 1,
+  "user": {
+    "id": 1,
+    "username": "imobiliaria1",
+    "tipo_usuario": "IMOBILIARIA"
+  },
+  "nome": "Imobiliária Teste",
+  "email": "imobiliaria@teste.com",
+  "telefone": "123456789",
+  "whatsapp": "987654321",
+  "endereco": "Rua Teste, 123"
+}
+```
+
+- **POST /api/register/normal-user/**
+- **Body:**
+```json
+{
+  "user": {
+    "username": "usuario1",
+    "password": "senha123",
+    "tipo_usuario": "NORMAL"
+  },
+  "nome": "Usuário Teste",
+  "email": "usuario@teste.com",
+  "telefone": "123456789"
+}
+```
+- **Resposta:**
+```json
+{
+  "id": 1,
+  "user": {
+    "id": 2,
+    "username": "usuario1",
+    "tipo_usuario": "NORMAL"
+  },
+  "nome": "Usuário Teste",
+  "email": "usuario@teste.com",
+  "telefone": "123456789"
+}
+```
+
+- **POST /api/login**
+- **Body:**
+```json
+{
+  "username": "imobiliaria1",
+  "password": "senha123"
+}
+```
+- **Resposta:**
+```json
+{
+  "refresh": "token_de_refresh",
+  "access": "token_de_acesso",
+  "user_type": "IMOBILIARIA"
 }
 ```
 
