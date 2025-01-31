@@ -1,38 +1,57 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato, UserProfile
+from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato, CustomUser, ImobiliariaUser, NormalUser
+from django.contrib.auth import authenticate
 
-class UserRegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    full_name = serializers.CharField(write_only=True, required=False)
-    phone = serializers.CharField(write_only=True, required=False)
-    is_imobiliaria = serializers.BooleanField(write_only=True, required=False)
-
+class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password', 'password2', 'full_name', 'phone', 'is_imobiliaria']
-        extra_kwargs = {
-            'email': {'required': True},
-        }
+        model = CustomUser
+        fields = ['username', 'password', 'tipo_usuario']
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create(
+        user = CustomUser.objects.create_user(
             username=validated_data['username'],
-            email=validated_data['email'],
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-
-        # Cria o perfil do usuário
-        UserProfile.objects.create(
-            user=user,
-            full_name=validated_data.get('full_name', ''),
-            phone=validated_data.get('phone', ''),
-            is_imobiliaria=validated_data.get('is_imobiliaria', False),
+            password=validated_data['password'],
+            tipo_usuario=validated_data['tipo_usuario']
         )
         return user
+
+class ImobiliariaUserSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+
+    class Meta:
+        model = ImobiliariaUser
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = CustomUserSerializer.create(CustomUserSerializer(), user_data)
+        imobiliaria = ImobiliariaUser.objects.create(user=user, **validated_data)
+        return imobiliaria
+
+class NormalUserSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+
+    class Meta:
+        model = NormalUser
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = CustomUserSerializer.create(CustomUserSerializer(), user_data)
+        normal_user = NormalUser.objects.create(user=user, **validated_data)
+        return normal_user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        user = authenticate(username=data['username'], password=data['password'])
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError("Credenciais inválidas.")
 
 class ImobiliariaSerializer(serializers.ModelSerializer):
     class Meta:

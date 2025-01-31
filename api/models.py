@@ -1,14 +1,35 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    full_name = models.CharField(max_length=255, blank=True)
-    phone = models.CharField(max_length=20, blank=True)
-    is_imobiliaria = models.BooleanField(default=False)
+class CustomUser(AbstractUser):
+    TIPO_USUARIO_CHOICES = [
+        ('IMOBILIARIA', 'Imobiliária'),
+        ('NORMAL', 'Usuário Normal'),
+    ]
+    tipo_usuario = models.CharField(max_length=20, choices=TIPO_USUARIO_CHOICES)
 
     def __str__(self):
-        return self.user.username
+        return self.username
+
+class ImobiliariaUser(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='imobiliaria')
+    nome = models.CharField(max_length=255)
+    email = models.EmailField()
+    telefone = models.CharField(max_length=20)
+    whatsapp = models.CharField(max_length=20, blank=True, null=True)
+    endereco = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nome
+
+class NormalUser(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='normal_user')
+    nome = models.CharField(max_length=255)
+    email = models.EmailField()
+    telefone = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nome
 class Imobiliaria(models.Model):
     nome = models.CharField(max_length=255)
     email = models.EmailField()

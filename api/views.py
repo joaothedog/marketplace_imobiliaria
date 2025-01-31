@@ -1,16 +1,18 @@
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions, generics, status
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 from .filters import ImovelFilter
 from django_filters import rest_framework as filters
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
-from django.contrib.auth.models import User
+from .serializers import ImobiliariaUserSerializer, NormalUserSerializer, LoginSerializer, ImobiliariaSerializer, ImovelSerializer, ImagemSerializer, PacoteAnuncioSerializer, ContratoSerializer
 
 from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato
-from .serializers import ImobiliariaSerializer, ImovelSerializer, ImagemSerializer, PacoteAnuncioSerializer, ContratoSerializer, UserRegisterSerializer
 
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -18,10 +20,28 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
             return True
         return request.user and request.user.is_authenticated
 
-class UserRegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
-    permission_classes = [permissions.AllowAny]  # Permite que qualquer pessoa se registre
+class RegisterImobiliariaView(generics.CreateAPIView):
+    serializer_class = ImobiliariaUserSerializer
+    permission_classes = [permissions.AllowAny]
+
+class RegisterNormalUserView(generics.CreateAPIView):
+    serializer_class = NormalUserSerializer
+    permission_classes = [permissions.AllowAny]
+
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user_type': user.tipo_usuario  # Retorna o tipo de usuário
+        })
     
 class ImobiliariaViewSet(viewsets.ModelViewSet):
     queryset = Imobiliaria.objects.all()
