@@ -53,6 +53,19 @@ class Imovel(models.Model):
 
     def __str__(self):
         return self.titulo
+
+    class Meta:
+        ordering = ['-data_criacao']
+
+class Oferta(models.Model):
+    imovel = models.ForeignKey(Imovel, on_delete=models.CASCADE, related_name='ofertas')
+    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='ofertas')
+    valor = models.DecimalField(max_digits=10, decimal_places=2)  # Valor da oferta
+    tipo = models.CharField(max_length=10, choices=[('COMPRA', 'Compra'), ('LOCACAO', 'Locação')])  # Tipo de oferta
+    data_criacao = models.DateTimeField(auto_now_add=True)  # Data da oferta
+
+    def __str__(self):
+        return f"Oferta de {self.tipo} por {self.usuario.username} no imóvel {self.imovel.titulo}"
     
 class Imagem(models.Model):
     imovel = models.ForeignKey(Imovel, on_delete=models.CASCADE, related_name='imagens')

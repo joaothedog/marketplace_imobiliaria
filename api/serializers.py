@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato, CustomUser, ImobiliariaUser, NormalUser
+from .models import Imobiliaria, Imovel, Imagem, PacoteAnuncio, Contrato, CustomUser, ImobiliariaUser, NormalUser, Oferta
 from django.contrib.auth import authenticate
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -72,6 +72,16 @@ class ImovelSerializer(serializers.ModelSerializer):
         if value and value < 0:
             raise serializers.ValidationError("O preço de locação não pode ser negativo.")
         return value
+
+class OfertaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Oferta
+        fields = '__all__'
+        read_only_fields = ['usuario'] 
+
+    def create(self, validated_data):  
+        validated_data['usuario'] = self.context['request'].user
+        return super().create(validated_data)
 
 class ImagemSerializer(serializers.ModelSerializer):
     class Meta:

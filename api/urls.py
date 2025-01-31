@@ -9,6 +9,7 @@ from .views import (
     RegisterImobiliariaView,
     RegisterNormalUserView,
     LoginView,
+    OfertaViewSet,
 )
 
 router = DefaultRouter()
@@ -17,6 +18,7 @@ router.register(r"imoveis", ImovelViewSet)
 router.register(r"imagens", ImagemViewSet)
 router.register(r"pacotes", PacoteAnuncioViewSet)
 router.register(r"contratos", ContratoViewSet)
+router.register(r'ofertas', OfertaViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
