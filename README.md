@@ -2,6 +2,10 @@
 
 Esta é uma API Django Rest Framework (DRF) para um marketplace de imóveis, onde imobiliárias podem anunciar imóveis para venda ou locação. A API permite a listagem de imóveis, criação de novos anúncios (com autenticação JWT), registro de usuários e muito mais.
 
+## Modelo Entidade-Relacionamento
+
+<img src="https://i.ibb.co/xKRF2Xrn/ModeloER.png" alt="Texto Alternativo">
+
 ## Tecnologias Utilizadas
 - Python: Linguagem de programação principal.
 - Django: Framework web para desenvolvimento rápido e seguro.
