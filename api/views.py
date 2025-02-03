@@ -147,6 +147,7 @@ class ImobiliariaViewSet(viewsets.ModelViewSet):
 
 class ImovelViewSet(viewsets.ModelViewSet):
     queryset = Imovel.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ImovelSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ImovelFilter
